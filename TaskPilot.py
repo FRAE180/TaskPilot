@@ -8,6 +8,9 @@ df = pd.read_excel(excel_file, sheet_name='ToDo_Priorisiert', engine='openpyxl')
 # Leere Zeilen entfernen
 df.dropna(how='all', inplace=True)
 
+# Spaltennamen bereinigen (z. B. \n entfernen)
+df.columns = df.columns.str.replace('\n', ' ').str.strip()
+
 # Fehlende Status-Werte auffüllen
 df['Status'] = df['Status'].fillna('Unbekannt')
 
@@ -26,7 +29,7 @@ with st.sidebar.form("task_form"):
     if submitted:
         new_task = {
             'Erstellt': erstellt,
-            'Kunde oder\nHersteller': kunde,
+            'Kunde oder Hersteller': kunde,
             'Aufgabe': aufgabe,
             'Beschreibung': beschreibung,
             'Deadline': deadline,
@@ -48,7 +51,7 @@ for i, status in enumerate(statuses):
         st.subheader(status)
         for _, row in df[df['Status'] == status].iterrows():
             st.markdown(f"**{row.get('Aufgabe', '')}**")
-            st.markdown(f"*{row.get('Kunde oder\nHersteller', '')}*")
+            st.markdown(f"*{row.get('Kunde oder Hersteller', '')}*")
             st.markdown(f"{row.get('Beschreibung', '')}")
             st.markdown(f"📅 Deadline: {row.get('Deadline', '')}")
             st.markdown(f"🔥 Priorität: {row.get('Priorität', '')}")
