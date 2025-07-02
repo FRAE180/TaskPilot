@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import openpyxl
 
 # Excel-Datei laden
 excel_file = 'todo_xlsx.xlsx'
